@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest-framework',
+    'accounts',
+    'knox',
 ]
+
+AUTH_USER_MODEL = 'accounts.Users'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'knox.auth.TokenAuthentication'
+    ]
+}
+
+REST = {
+    'USER_SERIALIZER': 'accounts.serializer.UserSerializer',
+    'TOKEN_TIL': timedelta(hours=48)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
