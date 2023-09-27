@@ -51,9 +51,9 @@ REST_FRAMEWORK = {
     ]
 }
 
-REST = {
-    'USER_SERIALIZER': 'accounts.serializer.UserSerializer',
-    'TOKEN_TIL': timedelta(hours=48)
+REST_KNOX = {
+    'USER_SERIALIZER': 'accounts.serializers.UserSerializer',
+    'TOKEN_TIL': timedelta(hours=90)
 }
 
 MIDDLEWARE = [
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'UTC'
 

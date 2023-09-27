@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import UpdateAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.contrib.auth import login
@@ -27,17 +27,16 @@ class UpdateUserAPI(UpdateAPIView):
 
 
 class LoginAPIView(knox_views.LoginView):
-    permission_class = (AllowAny,)
+    permission_classes = (AllowAny, )
     serializer_class = LoginSerializer
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
-
+        # serializer = LoginSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.validated_data['user']
             login(request, user)
             response = super().post(request, format=None)
-
         else:
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 

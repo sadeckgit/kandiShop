@@ -15,7 +15,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         extra_kwargs = {'password': {'required': True}}
 
-    def validated(self, attrs):
+    def validate(self, attrs):
         email = attrs.get('email', '').strip().lower
         if CustomUser.objects.filter(email=email).exists():
             raise serializers.ValidationError("An account with this email already exist, "
@@ -51,7 +51,7 @@ class LoginSerializer(serializers.Serializer):
         if not email or not password:
             raise serializers.ValidationError("Please, you must give both email and password...")
 
-        if CustomUser.objects.filter(email=email).exists():
+        if not CustomUser.objects.filter(email=email).exists():
             raise serializers.ValidationError("This email does not exists...")
 
         user = authenticate(request=self.context.get('request'), email=email, password=password)
